@@ -10,10 +10,24 @@ $ git config --global init.defaultBranch main          // Define o nome padrão 
 
 
 git init: Inicia ou cria um repositório.
-$ git init
+$ dir                                                    // Mostra o diretório atual
+$ mkdir nome_da_pasta                                    // Cria uma pasta nova no diretório atual 
+$ cd nome_da_pasta                                       // Navega para a pasta
+$ git init                                               // Transforma a pasta num repositório, contendo um diretório .git (evitar mexer neste ficheiros)
 
 git status: Permite visualizar o estado do repositório.
 $ git status
+
+
+Ficheiros num repositório podem estar nos seguintes estados:
+
+   Untracked  →  Tracked
+       ↓           ↓
+   [Ignored]   Unmodified → Modified → Staged
+                    ↑                    ↓
+                    ←←←←←←←←←←←←←←←←←←←←←
+                         (after commit)
+
 
 git add: Prepara o conteúdo para o próximo commit.
 $ git add nome_do_arquivo
