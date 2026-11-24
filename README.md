@@ -2,6 +2,9 @@ git config: Este é o primeiro comando a ser executado após instalar o Git. Ele
 $ git config --global user.name "Nome do usuário"
 $ git config --global user.email "seu@email.com"
 
+git config --list: Mostra todas as configurações
+$ git config --list
+
 git init: Inicia ou cria um repositório.
 $ git init
 
