@@ -1,9 +1,13 @@
 git config: Este é o primeiro comando a ser executado após instalar o Git. Ele possibilita configurar seu nome e endereço de email que ficará vinculado às alterações.
-$ git config --global user.name "Nome do usuário"
+$ git config --global user.name "Nome do utilizador"
 $ git config --global user.email "seu@email.com"
 
-git config --list: Mostra todas as configurações
-$ git config --list
+$ git config --list                                    // Mostra todas as definições
+$ git config user.name                                 // Mostra apenas o nome de utilizador
+$ git config user.email                                // Mostra apenas o email do utilizador
+
+$ git config --global init.defaultBranch main          // Define o nome padrão de novos repositórios
+
 
 git init: Inicia ou cria um repositório.
 $ git init
@@ -15,7 +19,7 @@ git add: Prepara o conteúdo para o próximo commit.
 $ git add nome_do_arquivo
 $ git add .
 
-git commit: Salva o conteúdo atual junto com uma mensagem de registro do usuário que descreve as alterações.
+git commit: Salva o conteúdo atual junto com uma mensagem de registo do utilizador que descreve as alterações.
 $ git commit -m "Mensagem descritiva do commit"
 
 git clone: Clona um repositório existente.
