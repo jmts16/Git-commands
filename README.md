@@ -228,8 +228,172 @@ Fazer stage (add) de forma seletiva:
 
 
 ========================================================================================================================================================================================
+ENTENDER A STAGING AREA
+
+Working Directory          Staging Area           Repository
+┌─────────────────┐       ┌─────────────────┐    ┌─────────────────┐
+│                 │       │                 │    │                 │
+│   file1.js ─────────────→  file1.js ────────→  │    Commit 1     │
+│   file2.js      │       │                 │    │    Commit 2     │
+│   file3.js ─────────────→  file3.js       │    │    Commit 3     │
+│                 │       │                 │    │                 │
+└─────────────────┘       └─────────────────┘    └─────────────────┘
+                               ↑
+                    "Shopping cart" for
+                    your next commit
 
 
+>PORQUÊ UMA STAGING AREA
+
+A área de preparação oferece um controlo detalhado:
+
+Submissões seletivas ->	Escolhe exatamente que alterações submeter
+Revisão de alterações ->	Vê o que está prestes a ser submetido
+Submissões lógicas -> 	Agrupa alterações relacionadas
+Divisão de trabalho ->	Separa alterações não relacionadas em submissões diferentes
+
+
+>ADICIONAR FICHEIROS
+   
+   # Adicionar um ficheiro específico
+   $ git add filename.js
+   
+   # Adicionar vários ficheiros
+   $ git add file1.js file2.js
+   
+   # Adicionar todos os ficheiros num diretório
+   $ git add src/
+   
+   # Adicionar todas as alterações (novos, modificados, eliminados)
+   $ git add .
+   $ git add -A
+   
+   # Adicionar apenas ficheiros modificados e eliminados (não os novos)
+   $ git add -u
+
+>VERIFICAR O QUE ESTÁ NA "STAGING AREA"
+
+   # Ver o estado
+   $ git status
+   
+   # Ver as alterações preparadas (staged)
+   $ git diff --staged
+   $ git diff --cached  # O mesmo
+
+>REMOVER FICHEIROS DA "STAGING AREA"
+   
+   # Remover um ficheiro específico da "staging area" (mantendo as alterações)
+   $ git restore --staged filename.js
+   
+   # Sintaxe mais antiga (ainda funciona)
+   $ git reset HEAD filename.js
+   
+   # Remover todos os ficheiros da "staging area"
+   $ git restore --staged .
+   $ git reset HEAD
+
+
+>STAGING PARCIAL COM `git add -p`
+
+A opção `-p` (ou `--patch`) permite escolher, de forma interativa, que partes de um ficheiro pretende preparar:
+
+   $ git add -p filename.js
+
+O Git apresenta cada alteração (designada por "hunk" ou bloco) e pergunta o que pretende fazer:
+
+   @@ -1,5 +1,7 @@
+   function login() {
+   +  // Validação adicionada
+   validateInput();
+   +  logAttempt(); 
+   return authenticate(); 
+   }
+   Preparar este bloco [y,n,q,a,d,s,e,?]?
+
+Opções:
+
+   y -> (Yes)       Preparar este bloco
+   n -> (No)        Não preparar este bloco
+   q -> (Quit)      Sair (e não preparar os restantes)
+   a -> (All)       Preparar este bloco e todos os restantes
+   d -> (Drop)      Não preparar este bloco nem os restantes
+   s -> (Separate)  Dividir em blocos mais pequenos
+   e -> (Edit)      Editar o bloco manualmente
+
+>FICHEIRO DE ÍNDICE
+
+A área de preparação (*staging area*) é armazenada em `.git/index`. 
+
+Este ficheiro binário regista:
+   * Que ficheiros estão na staging area;
+   * O seu conteúdo (sob a forma de referências a *blobs*);
+   * As permissões dos ficheiros e timestamps;
+
+Pode inspecioná-lo com:
+
+   $ git ls-files --stage
+
+
+>PREPARAR REMOÇÃO DE FICHEIROS
+
+Quando elimina um ficheiro, precisa de preparar essa remoção:
+
+   # Eliminar e preparar num único comando
+   $ git rm filename.js
+
+   # Ou manualmente
+   $ rm filename.js
+   $ git add filename.js  # Prepara a remoção
+
+
+>PREPARAR MUDANÇA DE NOME DE FICHEIROS
+
+O Git deteta mudanças de nome através da semelhança de conteúdo:
+
+   # Mudar o nome e preparar num único comando
+   $ git mv oldname.js newname.js
+
+   # Ou manualmente
+   $ mv oldname.js newname.js
+   $ git add oldname.js newname.js
+
+O Git detetará a mudança de nome:
+
+   $ git status
+   # renamed:    oldname.js -> newname.js
+
+
+>BOAS PRÁTICAS:
+
+   * Rever antes de fazer commit:
+      $ git diff --staged  # Ver todas as mudanças
+      $ git status         # Ver em quais ficheiros
+     
+   * Fazer commits atómicos (cada um com uma mudança lógica):
+      # Exemplo:
+      $ git add auth.js
+      $ git commit -m "Add authentication logic"
+      
+      $ git add auth.test.js
+      $ git commit -m "Add auth tests"
+
+   * Não preparar código de debugging:
+      Usar `git add -p` para não adicionar console.log statements
+   
+   * Utilizar o staging como um passo de revisão:
+      $ git status                    # O que alterou?
+      $ git diff                      # Revever mudanças
+      $ git add specific-file         # Adicionar com intenção
+      $ git diff --staged             # Verificar o que está staged
+      $ git commit -m "Mensagem clara"
+
+   * Se adicionou algo que não devia:
+
+      $ git add wrong-file.js
+      # Remover do staging:
+      $ git restore --staged wrong-file.js
+     
+========================================================================================================================================================================================
 git clone: Clona um repositório existente.
    $ git clone [url]
 
